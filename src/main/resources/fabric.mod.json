@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "jsturret",
+  "version": "${version}",
+  "name": "JsTurret",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/jsturret/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.github.chaos.jsturret.client.JsturretClient"
+    ],
+    "main": [
+      "com.github.chaos.jsturret.Jsturret"
+    ]
+  },
+  "mixins": [
+    "jsturret.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
