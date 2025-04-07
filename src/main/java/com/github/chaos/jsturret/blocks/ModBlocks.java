@@ -1,8 +1,11 @@
 package com.github.chaos.jsturret.blocks;
 
+import com.github.chaos.jsturret.Jsturret;
+import com.github.chaos.jsturret.blocks.custom.JsTurretBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -12,24 +15,33 @@ import net.minecraft.util.Identifier;
 import java.util.function.Function;
 
 public class ModBlocks {
-    public static final Block AMETHYST_DISPENSER = register("amethyst_dispenser",
-            AmethystDispenserBlock::new, AbstractBlock.Settings.copy(Blocks.DISPENSER));
+    public static final Block JS_TURRET = register(
+            "jsturret",
+            JsTurretBlock::new,
+            AbstractBlock.Settings.create().solidBlock((state, view, pos) -> false).nonOpaque(),
+            true
+    );
 
-    public static Block register(RegistryKey<Block> key, Function<AbstractBlock.Settings, Block> factory, AbstractBlock.Settings settings) {
-        Block block = (Block)factory.apply(settings.registryKey(key));
-        return (Block)Registry.register(Registries.BLOCK, (RegistryKey)key, block);
+    private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings, boolean shouldRegisterItem) {
+        RegistryKey<Block> blockKey = keyOfBlock(name);
+        Block block = blockFactory.apply(settings.registryKey(blockKey));
+
+        if (shouldRegisterItem) {
+            RegistryKey<Item> itemKey = keyOfItem(name);
+
+            BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey));
+            Registry.register(Registries.ITEM, itemKey, blockItem);
+        }
+
+        return Registry.register(Registries.BLOCK, blockKey, block);
     }
 
-    public static Block register(RegistryKey<Block> key, AbstractBlock.Settings settings) {
-        return register(key, Block::new, settings);
+    private static RegistryKey<Block> keyOfBlock(String name) {
+        return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(Jsturret.MOD_ID, name));
     }
 
-    private static RegistryKey<Block> keyOf(String id) {
-        return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(AmethystShield.MOD_ID, id));
-    }
-
-    private static Block register(String id, Function<AbstractBlock.Settings, Block> factory, AbstractBlock.Settings settings) {
-        return register(keyOf(id), factory, settings);
+    private static RegistryKey<Item> keyOfItem(String name) {
+        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(Jsturret.MOD_ID, name));
     }
 
     public static void init() {}
