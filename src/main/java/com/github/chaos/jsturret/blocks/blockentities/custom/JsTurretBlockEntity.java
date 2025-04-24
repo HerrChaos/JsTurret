@@ -137,14 +137,14 @@ public class JsTurretBlockEntity extends BlockEntity {
                 v8EntitiesArray.push(obj);
             }
 
-            v8Runtime.getGlobalObject().set("entities", v8EntitiesArray);
+            v8Runtime.getGlobalObject().set("creatures", v8EntitiesArray);
             callbacks.addAll(v8EntitiesArray.bind(minecraftEntities));
 
             // run script
-            v8Runtime.getExecutor(entity.jsCode).executeVoid();
+            v8Runtime.getExecutor("const entities = Array.from(creatures); \n" + entity.jsCode).executeVoid();
 
             v8EntitiesArray.unbind(minecraftEntities);
-            v8Runtime.getGlobalObject().delete("entities");
+            v8Runtime.getGlobalObject().delete("creatures");
 
             v8BlockObject.unbind(entity.jsAPI);
             v8Runtime.getGlobalObject().delete("block");
@@ -242,8 +242,8 @@ public class JsTurretBlockEntity extends BlockEntity {
         }
 
         @V8Function
-        public Vec3d getPosition() {
-            return new Vec3d(getPos().getX(), getPos().getY(), getPos().getZ());
+        public Vec3dJS getPosition() {
+            return new Vec3dJS(getPos().getX(), getPos().getY(), getPos().getZ());
         }
 
         @V8Function

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "minecraft:iron_ingot",
+    "o": "minecraft:observer",
+    "s": "minecraft:netherite_ingot"
+  },
+  "pattern": [
+    "###",
+    "#o#",
+    "#s#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "jsturret:jsturret"
+  },
+  "show_notification": true
+}

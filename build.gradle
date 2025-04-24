@@ -24,6 +24,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     implementation 'com.caoccao.javet:javet:3.0.3'
+    include 'com.caoccao.javet:javet:3.0.3'
 }
 
 processResources {
